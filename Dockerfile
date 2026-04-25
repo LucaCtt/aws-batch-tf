@@ -1,3 +1,4 @@
+# First stage: Build the application with all dependencies
 FROM ghcr.io/astral-sh/uv:0.9.30-python3.13-trixie-slim AS builder
 
 WORKDIR /app
@@ -20,13 +21,8 @@ COPY README.md .
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked --no-dev
 
-# Reuse the installed dependencies in a smaller base image
+# Second stage: Create a minimal runtime image
 FROM python:3.13-slim-trixie
-
-# Install g++ for torch compile
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
 
 # Create a non-root user to run the application
 RUN useradd --create-home appuser

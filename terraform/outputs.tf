@@ -111,11 +111,11 @@ output "job_definitions" {
 ################################################################################
 
 output "sqs_queue_url" {
-  description = "URL of the SQS results queue — pass this to jobs via environment variables."
-  value       = aws_sqs_queue.results.url
+  description = "URL of the SQS messages queue — pass this to jobs via environment variables."
+  value       = aws_sqs_queue.messages.url
 }
 
 output "sqs_queue_arn" {
-  description = "ARN of the SQS results queue."
-  value       = aws_sqs_queue.results.arn
+  description = "ARN of the SQS messages queue."
+  value       = aws_sqs_queue.messages.arn
 }

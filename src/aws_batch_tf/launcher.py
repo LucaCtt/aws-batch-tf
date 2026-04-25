@@ -26,8 +26,12 @@ def launch() -> None:
     # Submit 3 parallel jobs to AWS Batch
     for i in range(3):
         job_id = submitter.submit(
-            job_name="example-job",
-            config={"HELLO_MESSAGE": f"Hello from job {i}!"},
+            job_name=f"example-job-{i}",
+            config={
+                "REGION_NAME": settings.region_name,
+                "MESSAGES_QUEUE_NAME": settings.messages_queue_name,
+                "HELLO_MESSAGE": f"Hello from job {i}!",
+            },
         )
         logger.info("Submitted job with ID: %s", job_id)
 

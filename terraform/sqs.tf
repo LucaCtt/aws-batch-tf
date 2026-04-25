@@ -9,7 +9,7 @@ resource "aws_sqs_queue" "messages" {
 # The launcher reads/deletes using its own caller credentials — no extra policy needed on that side.
 data "aws_iam_policy_document" "sqs_send" {
   statement {
-    actions   = ["sqs:SendMessage"]
+    actions   = ["sqs:SendMessage", "sqs:ReceiveMessage", "sqs:DeleteMessage", "sqs:GetQueueUrl", "sqs:GetQueueAttributes"]
     resources = [aws_sqs_queue.messages.arn]
   }
 }
