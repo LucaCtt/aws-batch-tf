@@ -7,6 +7,6 @@ class LauncherSettings(BaseSettings):
     region_name: str = "us-east-1"
     job_queue: str | None = None
     job_definition: str | None = None
-    messages_queue_url: str | None = None
+    messages_queue_name: str | None = None
     poll_interval: int = 30
     poll_timeout: int = 3600

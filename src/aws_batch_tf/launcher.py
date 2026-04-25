@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 def launch() -> None:
     """Launch an AWS Batch job using the specified settings."""
     settings = LauncherSettings()
-    if not settings.job_queue or not settings.job_definition or not settings.messages_queue_url:
+    if not settings.job_queue or not settings.job_definition or not settings.messages_queue_name:
         msg = "All of job_queue, job_definition, and messages_queue_url must be set in the settings."
         raise ValueError(msg)
 
@@ -21,13 +21,15 @@ def launch() -> None:
         job_definition=settings.job_definition,
         region_name=settings.region_name,
     )
-    queue = MessagesQueue(url=settings.messages_queue_url, region_name=settings.region_name)
+    queue = MessagesQueue(name=settings.messages_queue_name, region_name=settings.region_name)
 
-    job_id = submitter.submit(
-        job_name="example-job",
-        config={"EXAMPLE_ENV_VAR": "example_value"},
-    )
-    logger.info("Submitted job with ID: %s", job_id)
+    # Submit 3 parallel jobs to AWS Batch
+    for i in range(3):
+        job_id = submitter.submit(
+            job_name="example-job",
+            config={"HELLO_MESSAGE": f"Hello from job {i}!"},
+        )
+        logger.info("Submitted job with ID: %s", job_id)
 
     # Poll the messages queue for a message from the job, with a timeout
     deadline = time.monotonic() + settings.poll_timeout

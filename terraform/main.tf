@@ -18,7 +18,7 @@ module "batch" {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   }
   service_iam_role_name  = "${var.name_prefix}-batch-service"
-  create_spot_fleet_iam_role      = true
+  create_spot_fleet_iam_role      = var.comp_env_use_spot
   spot_fleet_iam_role_name        = "${var.name_prefix}-spot"
 
 

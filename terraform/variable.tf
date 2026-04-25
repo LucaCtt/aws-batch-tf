@@ -111,3 +111,20 @@ variable "job_retry_attempts" {
   type        = number
   default     = 1
 }
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# SQS queue configuration
+# ──────────────────────────────────────────────────────────────────────────────
+
+variable "sqs_visibility_timeout_seconds" {
+  description = "Seconds a message is hidden from other consumers after being received. Should be >= job_attempt_duration_seconds to avoid double-processing."
+  type        = number
+  default     = 3600
+}
+
+variable "sqs_message_retention_seconds" {
+  description = "Seconds SQS retains a message before deleting it. Default: 1 day."
+  type        = number
+  default     = 86400
+}

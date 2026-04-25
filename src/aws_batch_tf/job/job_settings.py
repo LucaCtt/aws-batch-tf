@@ -5,5 +5,6 @@ class JobSettings(BaseSettings):
     """Settings for the job. Will be loaded from environment variables or a .env file."""
 
     region_name: str = "us-east-1"
-    messages_queue_url: str | None = None
+    messages_queue_name: str | None = None
+    hello_message: str = "Default hello message from the job!"
 

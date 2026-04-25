@@ -41,4 +41,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 # Switch to non-root after install
 USER appuser
 
-ENTRYPOINT ["python", "src/aws_batch_tf/job.py"]
+ENTRYPOINT ["python", "src/aws_batch_tf/job/job.py"]

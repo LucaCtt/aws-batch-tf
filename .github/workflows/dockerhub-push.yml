@@ -6,8 +6,8 @@ on:
     branches:
       - main
     paths:
-      - "src/**/jobs/**/*.py"
-      - "src/messages_queue.py"
+      - "src/**/job/**/*.py"
+      - "src/aws_batch_tf/**/*.py"
       - "Dockerfile"
       - ".github/workflows/dockerhub-push.yml"
 

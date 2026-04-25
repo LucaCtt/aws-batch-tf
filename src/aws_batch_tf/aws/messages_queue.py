@@ -6,21 +6,16 @@ import boto3
 class MessagesQueue:
     """AWS SQS-backed message queue with retry logic for transient errors."""
 
-    def __init__(self, url: str, region_name: str) -> None:
+    def __init__(self, name: str, region_name: str) -> None:
         """Initialize the MessagesQueue.
 
         Arguments:
-            url (str): SQS queue URL.
+            name (str): SQS queue name.
             region_name (str): AWS region for the SQS client.
 
         """
         self._sqs = boto3.client("sqs", region_name=region_name)
-        self._url = url
-
-    @property
-    def url(self) -> str:
-        """The SQS queue URL. Raises QueueNotCreatedError if not yet created."""
-        return self._url
+        self._url = self._sqs.get_queue_url(QueueName=name)["QueueUrl"]
 
     def push(self, item: dict) -> None:
         """Push a message onto the queue.
@@ -29,7 +24,7 @@ class MessagesQueue:
             item: The message body to send, which will be JSON-encoded before sending.
 
         """
-        self._sqs.send_message(QueueUrl=self.url, MessageBody=json.dumps(item))
+        self._sqs.send_message(QueueUrl=self._url, MessageBody=json.dumps(item))
 
     def pop(
         self,
@@ -60,9 +55,7 @@ class MessagesQueue:
 
             for msg in messages:
                 body = json.loads(msg["Body"])
-                if filter_values is None or all(
-                    body.get(k) == v for k, v in filter_values.items()
-                ):
+                if filter_values is None or all(body.get(k) == v for k, v in filter_values.items()):
                     results.append(body)
                     self._delete(msg["ReceiptHandle"])
                 elif delete_non_matching:
