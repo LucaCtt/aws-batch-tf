@@ -53,10 +53,10 @@ class MessagesQueue:
             for msg in messages:
                 body = json.loads(msg["Body"])
                 if filter_values is None or all(body.get(k) == v for k, v in filter_values.items()):
+                    remaining -= 1
                     results.append(body)
                     self._delete(msg["ReceiptHandle"])
 
-            remaining -= len(messages)
 
         return results
 
