@@ -55,13 +55,7 @@ variable "comp_env_instance_types" {
 variable "job_image_uri" {
   description = "Container image URI for the job definition."
   type        = string
-  default     = "busybox:latest" # For DockerHub this can be just the image name. For ECR, it should be the full URI.
-}
-
-variable "job_execution_role_arn" {
-  description = "ARN of the ECS task execution role. Required for ECR image pulls and CloudWatch Logs."
-  type        = string
-  default     = null
+  default     = "lucactt/aws-batch-tf:latest" # For DockerHub this can be just the image name. For ECR, it should be the full URI.
 }
 
 variable "job_gpus" {

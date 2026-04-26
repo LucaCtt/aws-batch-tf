@@ -6,13 +6,14 @@ from aws_batch_tf.aws.messages_queue import MessagesQueue
 from aws_batch_tf.launcher_settings import LauncherSettings
 
 logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO)
 
 
 def launch() -> None:
     """Launch an AWS Batch job using the specified settings."""
     settings = LauncherSettings()
     if not settings.job_queue or not settings.job_definition or not settings.messages_queue_name:
-        msg = "All of job_queue, job_definition, and messages_queue_url must be set in the settings."
+        msg = "All of job_queue, job_definition, and messages_queue_name must be set in the settings."
         raise ValueError(msg)
 
     # Initialize AWS Batch job submitter and messages queue
@@ -34,6 +35,8 @@ def launch() -> None:
             },
         )
         logger.info("Submitted job with ID: %s", job_id)
+
+    logger.info("Submitted 3 jobs to AWS Batch. Waiting for messages from the jobs...")
 
     # Poll the messages queue for a message from the job, with a timeout
     deadline = time.monotonic() + settings.poll_timeout

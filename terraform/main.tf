@@ -17,9 +17,9 @@ module "batch" {
   instance_iam_role_additional_policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
   }
-  service_iam_role_name  = "${var.name_prefix}-batch-service"
-  create_spot_fleet_iam_role      = var.comp_env_use_spot
-  spot_fleet_iam_role_name        = "${var.name_prefix}-spot"
+  service_iam_role_name      = "${var.name_prefix}-batch-service"
+  create_spot_fleet_iam_role = var.comp_env_use_spot
+  spot_fleet_iam_role_name   = "${var.name_prefix}-spot"
 
 
   compute_environments = {
@@ -43,8 +43,9 @@ module "batch" {
 
   job_queues = {
     ec2_queue = {
-      name     = "${var.name_prefix}-queue"
-      priority = 1
+      name                  = "${var.name_prefix}-queue"
+      priority              = 1
+      create_scheduling_policy = false
 
       compute_environment_order = {
         0 = {
@@ -63,7 +64,6 @@ module "batch" {
 
       container_properties = jsonencode({
         image            = var.job_image_uri
-        executionRoleArn = local.effective_execution_role_arn
 
         resourceRequirements = [
           { type = "VCPU", value = tostring(var.job_vcpus) },

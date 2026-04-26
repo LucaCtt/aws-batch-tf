@@ -89,15 +89,6 @@ output "job_queues" {
 }
 
 ################################################################################
-# Scheduling Policy
-################################################################################
-
-output "scheduling_policies" {
-  description = "Map of scheduling policies created and their associated attributes"
-  value       = module.batch.scheduling_policies
-}
-
-################################################################################
 # Job Definitions
 ################################################################################
 

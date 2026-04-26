@@ -81,8 +81,7 @@ Edit `.env`. At minimum set `TF_VAR_NAME_PREFIX` (must be unique per deployment)
 ```bash
 cd terraform
 terraform init
-source ../.env   # loads TF_VAR_* variables
-terraform apply
+source ../.env && terraform apply
 ```
 
 If `TF_VAR_SUBNET_IDS` and `TF_VAR_SECURITY_GROUP_IDS` are left empty, Terraform will use the **AWS default VPC**, its subnets, and its default security group. See [Networking](#networking) for details.
@@ -103,8 +102,7 @@ Set `TF_VAR_JOB_IMAGE_URI` in `.env` to match.
 ### 4. Run the launcher
 
 ```bash
-source .env
-uv run python -m aws_batch_tf.launcher
+uv run launch
 ```
 
 The launcher submits jobs to Batch, then polls the SQS queue until results arrive.
@@ -113,8 +111,7 @@ The launcher submits jobs to Batch, then polls the SQS queue until results arriv
 
 ```bash
 cd terraform
-source ../.env
-terraform destroy
+source ../.env && terraform destroy
 ```
 
 This removes the Batch compute environment, job queue, job definition, SQS queue, and all IAM roles created by Terraform. It does not touch any VPC resources (those are read-only data sources).

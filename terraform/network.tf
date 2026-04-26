@@ -26,11 +26,6 @@ data "aws_security_group" "default" {
   }
 }
 
-data "aws_iam_role" "ecs_instance" {
-  count = var.job_execution_role_arn == null ? 1 : 0
-  name  = "ecsInstanceRole"
-}
-
 
 locals {
   use_default_network = var.subnet_ids == null
@@ -38,5 +33,4 @@ locals {
 
   effective_subnet_ids         = local.use_default_network ? data.aws_subnets.default[0].ids : var.subnet_ids
   effective_security_group_ids = local.use_default_security_group ? [data.aws_security_group.default[0].id] : var.security_group_ids
-  effective_execution_role_arn = var.job_execution_role_arn != null ? var.job_execution_role_arn : data.aws_iam_role.ecs_instance[0].arn
 }
