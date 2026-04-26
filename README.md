@@ -132,7 +132,6 @@ All infrastructure and app settings are loaded from environment variables. Copy 
 | `TF_VAR_COMP_ENV_MAX_CONCURRENT_JOBS` | `4` | Maximum number of jobs running in parallel. Determines `max_vcpus` |
 | `TF_VAR_COMP_ENV_INSTANCE_TYPES` | `["g4dn.xlarge", "g5.xlarge", ...]` | EC2 instance types for the compute environment |
 | `TF_VAR_JOB_IMAGE_URI` | `busybox:latest` | Container image for job containers |
-| `TF_VAR_JOB_EXECUTION_ROLE_ARN` | _(auto)_ | ECS task execution role ARN. Defaults to the account's `ecsInstanceRole` |
 | `TF_VAR_JOB_GPUS` | `0` | GPUs per job. Instance types must support the requested count |
 | `TF_VAR_JOB_VCPUS` | `4` | vCPUs per job |
 | `TF_VAR_JOB_MEMORY_MIB` | `4096` | Memory per job in MiB |
